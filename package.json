@@ -1,0 +1,24 @@
+{
+  "name": "communitize",
+  "version": "0.0.1",
+  "description": "Techincal Community Plugin Backend",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SilasReinagel/Communitize.git"
+  },
+  "author": "Silas Reinagel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SilasReinagel/Communitize/issues"
+  },
+  "homepage": "https://github.com/SilasReinagel/Communitize#readme",
+  "dependencies": {
+    "fastify": "^3.9.2",
+    "mongodb": "^3.6.3",
+    "nodemon": "^2.0.6"
+  }
+}
