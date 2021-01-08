@@ -34,8 +34,18 @@ fastify.post('/posts', async (req, reply) =>
 
 fastify.get('/posts/recent', async (req, reply) => 
   logged('Get Recent Posts',
-  ({}),
-  async r => await posts.getRecentPosts(20)));
+    ({}),
+    async r => await posts.getRecentPosts(20)));
+
+fastify.post('/posts/comment', async (req, reply) => 
+  logged('Add Post Comment', 
+    req.body, 
+    async r => await posts.addComment(r)));
+
+fastify.post('/posts/score', async (req, reply) => 
+  logged('User Scored Post', 
+    req.body, 
+    async r => await posts.scorePost(r)));
 
 // Framework
 

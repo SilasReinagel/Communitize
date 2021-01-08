@@ -13,16 +13,6 @@ const withoutProps = (obj, ...props) => {
   return r;
 };
 
-const iterateAll = (dbCursor) => {
-  const r = [];
-  console.log(dbCursor);
-  dbCursor.forEach(e => {    
-    console.log({ count: r.length });
-    r.push(e);
-  });
-  return r;
-}
-
 const ifHasRequiredProps = (obj, props, action) => {  
   for (i = 0; i < props.length; i++)
     if (!obj.hasOwnProperty(props[i]))
@@ -45,8 +35,24 @@ exports.getRecentPosts = (number) =>
     .then(async dbCursor => result.success(logged('Retrieved Recent Posts', await dbCursor.toArray())))
     .catch(e => result.error('Server Error', e));
 
+exports.addComment = (comment) =>
+  ifHasRequiredProps(comment, ['postId', 'userId', 'username', 'timestamp', 'comment'], () =>
+    db.executeCollectionAction(collectionName, c => c
+      .updateOne({ '_id': ObjectId(comment.postId)},{ $push: { comments: comment } }))
+      .then(r => result.success(logged(`Added Comment to Post ${comment.postId}`, { postId: comment.postId })))
+      .catch(e => result.error('Server Error', e)));
+
+exports.scorePost = (score) =>   
+  ifHasRequiredProps(score, ['postId', 'userId', 'username', 'timestamp', 'value'], () =>
+    db.executeCollectionAction(collectionName, c => c
+      .updateOne({ '_id': ObjectId(score.postId)},{ $push: { scores: score }, $inc: { totalScore: score.value } }))
+      .then(r => result.success(logged(`User Scored Post ${score.postId} ${score.value}`, { postId: score.postId })))
+      .catch(e => result.error('Server Error', e)));
+
 const withScoresAndComments = (obj) => {
   const r = clone(obj);
+  if (!obj.hasOwnProperty('totalScore'))
+    r.totalScore = 0;
   if (!obj.hasOwnProperty('scores'))
     r.scores = [];
   if (!obj.hasOwnProperty('comments'))
