@@ -4,22 +4,22 @@ Communitize - Backend
 - JS Lib
 
 Use Cases:
-- Create User
-- Update User Profile
-- Add Post
-- Get Posts
+X - Create User
+X - Get User Profile
+X - Update User Profile
+X - Add Post
+X - Get Recent Posts
 - Like Post
 - Add Post Comment
 
 Data:
 Document Types:
 
-User
-- UserId
-- Username
+Validate Schema
 
 User Profile
-- User
+- Id
+- Username
 - Bio
 - DoB
 - Links 
@@ -28,24 +28,27 @@ User Profile
 	- Website
 
 UserPost
-- PostId
-- User
+- Id
+- UserId
+- Username
 - Timestamp
 - PhotoUrl
 - Title
 - Body
-- PostScore[]
-- PostComment[]
+- Scores[]
+- Comments[]
 
 	PostComment
 	- PostId
-	- User
+	- UserId
+	- Username
 	- Timestamp
 	- Comment
 
 	PostScore
 	- PostId
-	- User
+	- UserId
+	- Username
 	- Timestamp
 	- Value
 

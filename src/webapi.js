@@ -1,5 +1,8 @@
 const fastify = require('fastify')({ logger: true });
-const userProfiles = require('./db/mongo-userprofile');
+const userProfiles = require('./db/mongo-userprofiles');
+const posts = require('./db/mongo-posts');
+
+// API Info
 
 fastify.get('/', async (req, reply) => {
   return { app: "communitize", version: '0.0.1' }
@@ -23,6 +26,18 @@ fastify.get('/users/id/:userId', async (req, reply) =>
     async r => await userProfiles.getUserById(r)));
 
 // Posts
+
+fastify.post('/posts', async (req, reply) => 
+  logged('Create/Update Post', 
+    req.body, 
+    async r => await posts.putPost(r)));
+
+fastify.get('/posts/recent', async (req, reply) => 
+  logged('Get Recent Posts',
+  ({}),
+  async r => await posts.getRecentPosts(20)));
+
+// Framework
 
 const logged = async (operation, req, getResp) => {
   const resp = await getResp(req);
